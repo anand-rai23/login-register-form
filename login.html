@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Register</title>
+  <title>Login</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
@@ -24,7 +24,7 @@
       padding: 1rem;
     }
 
-    .register-box {
+    .login-box {
       background: rgba(0, 0, 0, 0.5);
       backdrop-filter: blur(10px);
       padding: 2.5rem 2rem;
@@ -34,7 +34,7 @@
       max-width: 400px;
     }
 
-    .register-box h2 {
+    .login-box h2 {
       text-align: center;
       margin-bottom: 2rem;
       font-weight: 600;
@@ -74,8 +74,13 @@
     }
 
     .form-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       font-size: 0.85rem;
       margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
     }
 
     .form-options label {
@@ -84,7 +89,16 @@
       gap: 0.4rem;
     }
 
-    .register-btn {
+    .form-options a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .form-options a:hover {
+      text-decoration: underline;
+    }
+
+    .login-btn {
       width: 100%;
       padding: 0.9rem;
       border: none;
@@ -96,105 +110,89 @@
       transition: 0.3s ease;
     }
 
-    .register-btn:hover {
+    .login-btn:hover {
       background-color: #f1f1f1;
     }
 
-    .login-link {
+    .register-link {
       text-align: center;
       margin-top: 1rem;
       font-size: 0.85rem;
     }
 
-    .login-link a {
+    .register-link a {
       color: #fff;
       font-weight: 500;
       text-decoration: none;
     }
 
-    .login-link a:hover {
+    .register-link a:hover {
       text-decoration: underline;
     }
 
     @media (max-width: 480px) {
-      .register-box {
+      .login-box {
         padding: 2rem 1.5rem;
       }
 
-      .register-box h2 {
+      .login-box h2 {
         font-size: 1.5rem;
+      }
+
+      .form-options {
+        flex-direction: column;
+        align-items: flex-start;
       }
     }
   </style>
 </head>
 <body>
 
-  <div class="register-box">
-    <h2>Register</h2>
-    <form id="registerForm">
+  <div class="login-box">
+    <h2>Login</h2>
+    <form id="loginForm">
       <div class="form-group">
-        <input type="text" id="fullname" required placeholder=" " />
-        <label>Full Name</label>
-      </div>
-
-      <div class="form-group">
-        <input type="email" id="email" required placeholder=" " />
+        <input type="email" id="loginEmail" required placeholder=" " />
         <label>Email</label>
       </div>
 
       <div class="form-group">
-        <input type="password" id="password" required placeholder=" " />
+        <input type="password" id="loginPassword" required placeholder=" " />
         <label>Password</label>
       </div>
 
-      <div class="form-group">
-        <input type="password" id="confirmPassword" required placeholder=" " />
-        <label>Confirm Password</label>
-      </div>
-
       <div class="form-options">
-        <label><input type="checkbox" id="terms" required /> I agree to the Terms & Conditions</label>
+        <label><input type="checkbox" /> Remember me</label>
+        <a href="#">Forgot Password?</a>
       </div>
 
-      <button type="submit" class="register-btn">Register</button>
+      <button type="submit" class="login-btn">Login</button>
 
-      <p class="login-link">
-        Already have an account? <a href="login.html">Login</a>
+      <p class="register-link">
+        Don't have an account? <a href="register.html">Register</a>
       </p>
     </form>
   </div>
 
   <script>
-    const form = document.getElementById('registerForm');
+    const loginForm = document.getElementById('loginForm');
 
-    form.addEventListener('submit', function (e) {
+    loginForm.addEventListener('submit', function (e) {
       e.preventDefault();
 
-      const name = document.getElementById('fullname').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value;
-      const confirmPassword = document.getElementById('confirmPassword').value;
-      const termsChecked = document.getElementById('terms').checked;
+      const loginEmail = document.getElementById('loginEmail').value.trim();
+      const loginPassword = document.getElementById('loginPassword').value;
 
-      if (password !== confirmPassword) {
-        alert("Passwords do not match!");
-        return;
+      const storedEmail = localStorage.getItem("regEmail");
+      const storedPassword = localStorage.getItem("regPassword");
+
+      if (loginEmail === storedEmail && loginPassword === storedPassword) {
+        alert("Login successful!");
+        // Redirect to dashboard/homepage (make dashboard.html if needed)
+        window.location.href = "dashboard.html";
+      } else {
+        alert("Invalid email or password.");
       }
-
-      if (!termsChecked) {
-        alert("Please accept the terms and conditions.");
-        return;
-      }
-
-      // Save to localStorage
-      localStorage.setItem("regName", name);
-      localStorage.setItem("regEmail", email);
-      localStorage.setItem("regPassword", password);
-
-      alert("Registration successful! Redirecting to login page...");
-
-      form.reset();
-      window.location.href = "login.html";
     });
   </script>
 
